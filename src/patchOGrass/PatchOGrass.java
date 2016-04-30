@@ -13,128 +13,100 @@ public class PatchOGrass {
 
 
     public static void main(String arg[]){
-//        float[][] grass = makeGrass(5,5);
-//        System.out.println(" ");
-//        float[][] bestPatch = surveyGrass(grass, 2, 2);
 
-//        int[] test = new int[]{2,4,7,0, 4};
-//        int[] answer = findMaxRectangleHistogram(test);
-//        System.out.println(answer[0] + " " + answer[1] + " " + answer[2]);
-
-//        int[][] matrix = new int[5][5];
-//        for (int i = 0; i < matrix.length; i++) {
-//            for (int j = 0; j < matrix[i].length; j++) {
-//                if ((i) < 4 ) {
-//                    matrix[i][j] = 1;
-//                } else {
-//                    matrix[i][j] = 0;
-//                }
-//            }
-//        }
-//
-//
-//        for (int i=0; i<results.length; i++) {
-//            System.out.println(results[i]);
-//        }
-
-
-
-
-        int[][] grass = makeBinaryGrass(10, 20, 0.8);
-
-
+        int[][] grass = makeBinaryMatrix(150, 100, 0.8);
 
         System.out.println(" ");
 
         long startTime = System.currentTimeMillis();
-        HashMap bestPatch = surveyBinaryGrassBF(grass);
+        HashMap bestPatch = findMaxSubmatrix1sBF(grass);
         long endTime = System.currentTimeMillis();
         long bfTime = endTime - startTime;
 
         System.out.println("BF took " + bfTime + " milliseconds");
 
 
+        long startTime1 = System.currentTimeMillis();
+        HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
+        long endTime1 = System.currentTimeMillis();
+        long dpTime = endTime1 - startTime1;
+        System.out.println("DP took " + dpTime + " milliseconds");
 
-//        long startTime1 = System.currentTimeMillis();
-//        HashMap bestPatchDP = findMaxSubmatrix1s(grass);
-//        long endTime1 = System.currentTimeMillis();
-//        long dpTime = endTime1 - startTime1;
-//        System.out.println("DP took " + dpTime + " milliseconds");
 
-
-//        System.out.println("Difference was " + (bfTime - dpTime));
-
+        System.out.println("Difference was " + (bfTime - dpTime));
 
     }
 
 
 
-
-
-
-
     /**
-     * Takes a binary matrix represented as a 2D array and finds the largest submatrix containing all 1's.
-     * @param matrix, a 2D array with only 0's or 1's as entries
+     * Takes a binary matrix represented as a 2D array and finds the largest submatrix containing all 1's using a Dynamic Programming approach.
+     * This method uses a frontier representing a histogram of potential heights and computes the largest rectangle in the histogram after each row.
+     * Runs in O(m*n) time where m is the number of rows and n is the number of columns.
+     * @param matrix, a 2D array with only 0's or 1's as entries.
      * @return a Map holding an upper left coordinate, a height, and width. 
      */
-    public static HashMap<String, Integer>  findMaxSubmatrix1s(int[][] matrix) {
+    public static HashMap<String, Integer>  findMaxSubmatrix1sDP(int[][] matrix) {
 
         HashMap<String, Integer> results = new HashMap<String, Integer>();
         results.put("height", 0);
         results.put("width", 0);
-        results.put("x", 0);
-        results.put("y", 0);
+        results.put("x", 0); // x coordinate of upper left entry
+        results.put("y", 0); // y coordinate of upper right entry
 
-
-        int[] frontier = new int[matrix.length];
+        int[] frontier = new int[matrix[0].length];
         int maxArea = 0;
-        //int[] bestCorners = new int[]{0,0,0,0,0,0,0,0};
 
-        for (int y = 0; y < matrix.length; y++) { // TODO: Fix length
+        for (int y = 0; y < matrix.length; y++) { // Iterate
             // Update frontier
-            for (int i = 0; i < matrix[0].length; i++) { //
-                if (matrix[y][i] == 0) { // Make frontier value at index 0 regardless of what it was before.
-                    frontier[i] = 0; // TODO: FIX array indiex out of bounds Exception
+            for (int x = 0; x < matrix[0].length; x++) { //
+                if (matrix[y][x] == 0) { // Make frontier value at index 0 regardless of what it was before.
+                    frontier[x] = 0;
                 } else {
-                    frontier[i] += 1; // Increment frontier value at index i by 1.
+                    frontier[x] += 1; // Increment frontier value at index i by 1.
                 }
             }
-            // Frontier represents a histogram
-            int[] maxHist = findMaxRectangleHistogram(frontier); // Find max rectangle of frontier histogram
+            // Calculate area based on frontier after iterating through each entry of the current row.
+            int[] maxHist = findMaxRectangleHistogram(frontier); // Find max rectangle of frontier histogram.
 
-            //int[] corners = findCorners(maxHist[0]+maxHist[2], y, maxHist[1], maxHist[2]);
             int area = findArea(maxHist);
-
             if (area > maxArea) {
-                maxArea = area;
                 results.put("height", maxHist[2]);
                 results.put("width", maxHist[1]);
                 results.put("x", maxHist[0]);
-                results.put("y", y - maxHist[2]+1);
+                results.put("y", y - maxHist[2]+1); // upper left y value is (y+1) - height of rectangle.
+                maxArea = area;
             }
         }
         System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("x") + "," + results.get("y") + ").");
         return results;
     }
 
+
+    /**
+     * Takes an output array from findMaxRectangleHistogram and computes the area of the rectangle.
+     * @param histResults, index 0 has x coordinate, index 1 has width, and index 2 has height.
+     * @return an int area or the rectangle.
+     */
     private static int findArea(int[] histResults) {
         return histResults[1] * histResults[2];
     }
 
-//    private static HashMap<String, Integer> findCorners(int x, int y, int width, int height) {
-//        new
-//    }
 
-
-
+    /**
+     * Takes an array of ints representing a histogram and finds the largest rectangle in the histogram.
+     * This method uses a stack to keep track of heights that could possible form a rectangle as it moves across the histogram.
+     * Runs in O(n) time where n is the length of histValues.
+     * @param histValues, an array with each entry specifying a height for that index bar of the histogram.
+     * @return maxInfo, an array where index 0 has x coordinate, index 1 has width, and index 2 has height.
+     */
     private static int[] findMaxRectangleHistogram(int[] histValues) {
 
         Deque<Integer> stack = new LinkedList<>();
         int maxArea = 0;
         int[] maxInfo = new int[] {0,0,0}; // Holds an index, a width and a height.
 
-        int i; // Declaring i here allows us to only increment i if the first if statement in the loop is executed.
+        int i; // Declaring i here allows us to increment i only if the first if statement in the loop is executed.
         for (i = 0; i < histValues.length;) {
 
             if (stack.isEmpty() || histValues[i] >= histValues[stack.peek()]) // Only increment i if stack is empty or current val is < top stack val
@@ -143,15 +115,16 @@ public class PatchOGrass {
                 int value = stack.pop();
 
                 int area; // Calculate new area
-                boolean emptyStack;
-                if (stack.isEmpty()) {
+                boolean emptyStack; // This allows us to know the x coordinate of the max rectangle when we calculate later.
+                // Area formula is different depending on if the stack is empty or not.
+                    if (stack.isEmpty()) {
                     area = histValues[value] * i;
                     emptyStack = true;
                 } else {
                     area =  histValues[value] * (i - stack.peek() - 1);
                     emptyStack = false;
                 }
-                if (area > maxArea) { // Decompose this step
+                if (area > maxArea) {
                     if (emptyStack) {
                         maxInfo[0] = 0;
                         maxInfo[1] = i;
@@ -165,11 +138,13 @@ public class PatchOGrass {
                 }
             }
         }
+        // Process for after the loop has finished and the stack isn't empty yet.
         while (!stack.isEmpty()) {
             int value = stack.pop();
 
             int area; // Calculate new area
-            boolean emptyStack;
+            boolean emptyStack; // This allows us to know the x coordinate of the max rectangle when we calculate later.
+            // Area formula is different depending on if the stack is empty or not.
             if (stack.isEmpty()) {
                 area = histValues[value] * histValues.length;
                 emptyStack = true;
@@ -191,84 +166,66 @@ public class PatchOGrass {
                 maxArea = area;
             }
         }
-
-        //System.out.println("Max area is " + maxArea);
         return maxInfo;
     }
 
 
 
 
-
-
     /**
-     * Creates a field of grass with each blade being a random length between 0 and 1.
-     *@param N, an int height of the field of grass.
-     * @param M, an int width of the field of grass
-     * @return A two dimensional array of binary 1s and 0s representing the field of grass.
+     * Returns the sum of entries of a submatrix given a matrix and specifications of the submarix.
+     * @param matrix, a 2D array representing the full matrix.
+     * @param currentI, upper left x coordinate of submatrix.
+     * @param currentJ, upper left y coordinate of submatrix.
+     * @param h, height of submatrix.
+     * @param w, width of submatrix.
+     * @return total, an int sum of entries of the submatrix.
      */
-    public static int[][] makeBinaryGrass(int N, int M, double pct){
-        Random rand = new Random();
-        int[][] field = new int[N][M];
-        for (int i=0; i<N; i++){
-            for (int j=0; j<M; j++){
-
-                double randNum = rand.nextDouble();
-                if (randNum > pct) {
-                    field[i][j] = 0;
-                    //System.out.print(0 + " ");
-                } else {
-                    field[i][j] = 1;
-                    //System.out.print(1 + " ");
-                }
-            }
-            //System.out.println(" ");
-        }
-        return field;
-    }
-
-    public static int sumBinaryGrass(int[][] field, int currentI, int currentJ, int h, int w){
+    public static int sumBinaryMatrix(int[][] matrix, int currentI, int currentJ, int h, int w){
         int total = 0;
-        for (int i = currentI; i< currentI + h; i++){
-            for (int j = currentJ; j< currentJ + w; j++){
-                total+=field[i][j];
+        for (int i = currentI; i < currentI + h; i++){
+            for (int j = currentJ; j < currentJ + w; j++){
+                total+= matrix[i][j];
             }
         }
-        //System.out.print(" adds to : " + total);
-        //System.out.println(" ");
         return total;
     }
 
-    public static HashMap<String, Integer> surveyBinaryGrassBF(int[][] field){
+
+
+    /**
+     * Takes a binary matrix represented as a 2D array and finds the largest submatrix containing all 1's using a Brute Force approach.
+     * This method finds every submatrix in matrix and returns a representation of the largest submatrix consisting only of 1's.
+     * Runs in O(m^3*n^3) time where m is the number of rows and n is the number of columns.
+     * @param matrix, a 2D array with only 0's or 1's as entries.
+     * @return a Map holding an upper left coordinate, a height, and width.
+     */
+    public static HashMap<String, Integer> findMaxSubmatrix1sBF(int[][] matrix){
         HashMap<String, Integer> results = new HashMap<String, Integer>();
         results.put("height", 0);
         results.put("width", 0);
         results.put("i", 0);
         results.put("j", 0);
         int best = 0;
-        int current;
-        int totLoops = 0;
-        for (int i=0; i<field.length;i++){
-            for (int j=0; j<field[0].length; j++){
-                for (int h=1; h<= field.length - i; h++){
-                    for (int w=1; w<= field[0].length - j; w++){
-                        totLoops++;
-                        //System.out.println(i + " " + j + " " + h + " " + w);
-                        current = sumBinaryGrass(field, i, j, h, w);
-                        if (current == (h * w)){
-                            if (current > best){
+        int subMatrixSum;
+        for (int i = 0; i < matrix.length;i++){
+            for (int j = 0; j < matrix[0].length; j++){
+                for (int h = 1; h <= matrix.length - i; h++){
+                    for (int w = 1; w <= matrix[0].length - j; w++){
+                        subMatrixSum = sumBinaryMatrix(matrix, i, j, h, w);
+                        if (subMatrixSum == (h * w)) { // submatrix consists of only ones if and only if the sum of all elements equals h*w.
+                            if (subMatrixSum > best) { // subMatrixSum is equal to area since all entries are one.
                                 results.put("height", h);
                                 results.put("width", w);
                                 results.put("i", i);
                                 results.put("j", j);
-                                best = h * w;
+                                best = subMatrixSum;
                             }
                         }
                     }
                 }
             }
         }
-        System.out.println(totLoops);
         System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("j") + "," + results.get("i") + ").");
         return results;
     }
@@ -277,6 +234,32 @@ public class PatchOGrass {
 
 
 
+
+    /**
+     * Creates an MxN field of grass with each blade
+     * @param N, an int height of the field of grass.
+     * @param M, an int width of the field of grass
+     * @return A two dimensional array of binary 1s and 0s representing the field of grass.
+     */
+    public static int[][] makeBinaryMatrix(int N, int M, double pct){
+        Random rand = new Random();
+        int[][] matrix = new int[N][M];
+        for (int i=0; i<N; i++){
+            for (int j=0; j<M; j++){
+
+                double randNum = rand.nextDouble();
+                if (randNum > pct) {
+                    matrix[i][j] = 0;
+                    //System.out.print(0 + " ");
+                } else {
+                    matrix[i][j] = 1;
+                    //System.out.print(1 + " ");
+                }
+            }
+            //System.out.println(" ");
+        }
+        return matrix;
+    }
 
 
 
