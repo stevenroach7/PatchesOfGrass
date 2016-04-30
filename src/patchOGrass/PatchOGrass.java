@@ -39,10 +39,18 @@ public class PatchOGrass {
             System.out.println(results[i]);
         }
 
+
+
+
+
     }
 
 
-
+    /**
+     * Takes a binary matrix represented as a 2D array and finds the largest submatrix containing all 1's.
+     * @param matrix, a 2D array with only 0's or 1's as entries
+     * @return a Map holding an upper left coordinate, a height, and width. 
+     */
     public static int[] findMaxSubmatrix1s(int[][] matrix) {
 
         int[] frontier = new int[matrix.length];
@@ -73,7 +81,6 @@ public class PatchOGrass {
     }
 
     private static int findArea(int[] corners) {
-
         return corners[1] * corners[2];
     }
 
