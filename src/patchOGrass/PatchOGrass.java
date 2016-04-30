@@ -40,12 +40,29 @@ public class PatchOGrass {
 
 
 
-        int[][] grass = makeBinaryGrass(10,10);
+        int[][] grass = makeBinaryGrass(10, 20, 0.8);
+
+
+
         System.out.println(" ");
+
+        long startTime = System.currentTimeMillis();
         HashMap bestPatch = surveyBinaryGrassBF(grass);
+        long endTime = System.currentTimeMillis();
+        long bfTime = endTime - startTime;
+
+        System.out.println("BF took " + bfTime + " milliseconds");
 
 
-        HashMap bestPatchDP = findMaxSubmatrix1s(grass);
+
+//        long startTime1 = System.currentTimeMillis();
+//        HashMap bestPatchDP = findMaxSubmatrix1s(grass);
+//        long endTime1 = System.currentTimeMillis();
+//        long dpTime = endTime1 - startTime1;
+//        System.out.println("DP took " + dpTime + " milliseconds");
+
+
+//        System.out.println("Difference was " + (bfTime - dpTime));
 
 
     }
@@ -74,11 +91,11 @@ public class PatchOGrass {
         int maxArea = 0;
         //int[] bestCorners = new int[]{0,0,0,0,0,0,0,0};
 
-        for (int y = 0; y < matrix.length; y++) { // TODO: Is this right???
+        for (int y = 0; y < matrix.length; y++) { // TODO: Fix length
             // Update frontier
-            for (int i = 0; i < matrix[y].length; i++) {
+            for (int i = 0; i < matrix[0].length; i++) { //
                 if (matrix[y][i] == 0) { // Make frontier value at index 0 regardless of what it was before.
-                    frontier[i] = 0;
+                    frontier[i] = 0; // TODO: FIX array indiex out of bounds Exception
                 } else {
                     frontier[i] += 1; // Increment frontier value at index i by 1.
                 }
@@ -190,16 +207,22 @@ public class PatchOGrass {
      * @param M, an int width of the field of grass
      * @return A two dimensional array of binary 1s and 0s representing the field of grass.
      */
-    public static int[][] makeBinaryGrass(int N, int M){
+    public static int[][] makeBinaryGrass(int N, int M, double pct){
         Random rand = new Random();
         int[][] field = new int[N][M];
-        for (int i = 0; i<N; i++){
+        for (int i=0; i<N; i++){
             for (int j=0; j<M; j++){
-                int oneOrZero = rand.nextInt(10) % 2;
-                System.out.print(oneOrZero + " ");
-                field[i][j] = oneOrZero;
+
+                double randNum = rand.nextDouble();
+                if (randNum > pct) {
+                    field[i][j] = 0;
+                    //System.out.print(0 + " ");
+                } else {
+                    field[i][j] = 1;
+                    //System.out.print(1 + " ");
+                }
             }
-            System.out.println(" ");
+            //System.out.println(" ");
         }
         return field;
     }
