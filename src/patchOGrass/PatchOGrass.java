@@ -3,8 +3,11 @@ package patchOGrass;
 import java.util.*;
 
 /**
- * Created by Steven on 4/5/16.
- * * Created by Matt on 3/31/2016.
+ * This class contains methods for solving the problem of finding the largest submatrix of all 1's in a binary matrix.
+ * It contains implementations of two different algorithms that solve this problem.
+ * One algorithm is a brute force approach while the other uses Dynamic Programming.
+ * This class also contains methods to test and benchmark our algorithms.
+ * Created by Matt and Steven on 4/5/16.
  */
 
 public class PatchOGrass {
@@ -14,26 +17,29 @@ public class PatchOGrass {
 
     public static void main(String arg[]){
 
-        int[][] grass = makeBinaryMatrix(150, 100, 0.8);
-
-        System.out.println(" ");
-
-        long startTime = System.currentTimeMillis();
-        HashMap bestPatch = findMaxSubmatrix1sBF(grass);
-        long endTime = System.currentTimeMillis();
-        long bfTime = endTime - startTime;
-
-        System.out.println("BF took " + bfTime + " milliseconds");
 
 
-        long startTime1 = System.currentTimeMillis();
-        HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
-        long endTime1 = System.currentTimeMillis();
-        long dpTime = endTime1 - startTime1;
-        System.out.println("DP took " + dpTime + " milliseconds");
+        benchmarkAlgorithms();
 
-
-        System.out.println("Difference was " + (bfTime - dpTime));
+//        int[][] grass = makeBinaryMatrix(150, 100, 0.8);
+//
+//        System.out.println(" ");
+//
+//        long startTime = System.currentTimeMillis();
+//        HashMap bestPatch = findMaxSubmatrix1sBF(grass);
+//        long endTime = System.currentTimeMillis();
+//        long bfTime = endTime - startTime;
+//
+//        System.out.println("BF took " + bfTime + " milliseconds");
+//
+//
+//        long startTime1 = System.currentTimeMillis();
+//        HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
+//        long endTime1 = System.currentTimeMillis();
+//        long dpTime = endTime1 - startTime1;
+//        System.out.println("DP took " + dpTime + " milliseconds");
+//
+//        System.out.println("Difference was " + (bfTime - dpTime));
 
     }
 
@@ -227,6 +233,7 @@ public class PatchOGrass {
             }
         }
         System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("j") + "," + results.get("i") + ").");
+        System.out.println("Area: " + best);
         return results;
     }
 
@@ -237,15 +244,15 @@ public class PatchOGrass {
 
     /**
      * Creates an MxN field of grass with each blade
-     * @param N, an int height of the field of grass.
-     * @param M, an int width of the field of grass
+     * @param M, an int height of the field of grass.
+     * @param N, an int width of the field of grass
      * @return A two dimensional array of binary 1s and 0s representing the field of grass.
      */
-    public static int[][] makeBinaryMatrix(int N, int M, double pct){
+    private static int[][] makeBinaryMatrix(int M, int N, double pct){
         Random rand = new Random();
-        int[][] matrix = new int[N][M];
-        for (int i=0; i<N; i++){
-            for (int j=0; j<M; j++){
+        int[][] matrix = new int[M][N];
+        for (int i = 0; i < M; i++){
+            for (int j = 0; j < N; j++){
 
                 double randNum = rand.nextDouble();
                 if (randNum > pct) {
@@ -262,6 +269,39 @@ public class PatchOGrass {
     }
 
 
+
+
+    private static void benchmarkAlgorithms() {
+
+
+
+
+        for (int i = 1000; i <= 300000; i+= 1000) {
+
+            int[][] grass = makeBinaryMatrix(i, i, 0.8);
+
+            System.out.println("Matrix is " + i + " by " + i + ".");
+
+//            long startTime = System.currentTimeMillis();
+//            HashMap bestPatch = findMaxSubmatrix1sBF(grass);
+//            long endTime = System.currentTimeMillis();
+//            long bfTime = endTime - startTime;
+//
+//            System.out.println("BF took " + bfTime + " milliseconds");
+
+            long startTime1 = System.currentTimeMillis();
+            HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
+            long endTime1 = System.currentTimeMillis();
+            long dpTime = endTime1 - startTime1;
+
+            System.out.println("DP took " + dpTime + " milliseconds");
+            System.out.println(" ");
+//            System.out.println("Difference was " + (bfTime - dpTime) + " milliseconds.");
+//            System.out.println(" ");
+
+        }
+
+    }
 
 
 
