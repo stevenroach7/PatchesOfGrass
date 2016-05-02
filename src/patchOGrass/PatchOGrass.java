@@ -19,7 +19,10 @@ public class PatchOGrass {
 
 
 
-        benchmarkAlgorithms();
+        //benchmarkSquare();
+        benchmarkBF();
+
+        benchmarkDP();
 
 //        int[][] grass = makeBinaryMatrix(150, 100, 0.8);
 //
@@ -84,7 +87,7 @@ public class PatchOGrass {
                 maxArea = area;
             }
         }
-        System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("x") + "," + results.get("y") + ").");
+//        System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("x") + "," + results.get("y") + ").");
         return results;
     }
 
@@ -232,8 +235,8 @@ public class PatchOGrass {
                 }
             }
         }
-        System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("j") + "," + results.get("i") + ").");
-        System.out.println("Area: " + best);
+//        System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("j") + "," + results.get("i") + ").");
+//        System.out.println("Area: " + best);
         return results;
     }
 
@@ -271,37 +274,115 @@ public class PatchOGrass {
 
 
 
-    private static void benchmarkAlgorithms() {
+    private static void benchmarkSquare() {
 
 
+        for (int i = 10; i <= 150; i+=10) {
+
+            long bfTime = 0;
+            long dpTime = 0;
+            int area = 0;
+
+            for (int j = 0; j < 10; j++) {
+
+                int[][] grass = makeBinaryMatrix(i, i, 0.8);
 
 
-        for (int i = 1000; i <= 300000; i+= 1000) {
+                long startTime = System.currentTimeMillis();
+                HashMap bestPatch = findMaxSubmatrix1sBF(grass);
+                long endTime = System.currentTimeMillis();
+                bfTime+= (endTime - startTime);
 
-            int[][] grass = makeBinaryMatrix(i, i, 0.8);
+                area+= (int) bestPatch.get("height") *  (int) bestPatch.get("width");
 
-            System.out.println("Matrix is " + i + " by " + i + ".");
+                long startTime1 = System.currentTimeMillis();
+                HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
+                long endTime1 = System.currentTimeMillis();
+                dpTime+= (endTime1 - startTime1);
 
-//            long startTime = System.currentTimeMillis();
-//            HashMap bestPatch = findMaxSubmatrix1sBF(grass);
-//            long endTime = System.currentTimeMillis();
-//            long bfTime = endTime - startTime;
-//
-//            System.out.println("BF took " + bfTime + " milliseconds");
+            }
 
-            long startTime1 = System.currentTimeMillis();
-            HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
-            long endTime1 = System.currentTimeMillis();
-            long dpTime = endTime1 - startTime1;
 
-            System.out.println("DP took " + dpTime + " milliseconds");
-            System.out.println(" ");
-//            System.out.println("Difference was " + (bfTime - dpTime) + " milliseconds.");
-//            System.out.println(" ");
+            System.out.println(i + " by " + i + " Matrix");
+            System.out.println("Area: " + area/10.);
+            System.out.println("BF: " + bfTime/10.);
+            System.out.println("DP: " + dpTime/10.);
+            System.out.println();
 
         }
 
     }
+
+
+    private static void benchmarkBF() {
+
+
+        for (int i = 5; i <= 80; i+=5) {
+
+            long bfTime = 0;
+            int area = 0;
+
+            for (int j = 0; j < 10; j++) {
+
+                int[][] grass = makeBinaryMatrix(i, i, 0.8);
+
+
+                long startTime = System.currentTimeMillis();
+                HashMap bestPatch = findMaxSubmatrix1sBF(grass);
+                long endTime = System.currentTimeMillis();
+                bfTime+= (endTime - startTime);
+
+                area+= (int) bestPatch.get("height") *  (int) bestPatch.get("width");
+
+
+
+            }
+
+
+            System.out.println(i + " by " + i + " Matrix");
+            System.out.println("Area: " + area/10.);
+            System.out.println("BF: " + bfTime/10.);
+            System.out.println();
+
+        }
+
+    }
+
+    private static void benchmarkDP() {
+
+
+        for (int i = 500; i <= 15000; i+=500) {
+
+            long dpTime = 0;
+            int area = 0;
+
+            for (int j = 0; j < 10; j++) {
+
+                int[][] grass = makeBinaryMatrix(i, i, 0.8);
+
+
+                long startTime1 = System.currentTimeMillis();
+                HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
+                long endTime1 = System.currentTimeMillis();
+                dpTime+= (endTime1 - startTime1);
+
+                area+= (int) bestPatchDP.get("height") *  (int) bestPatchDP.get("width");
+
+            }
+
+
+            System.out.println(i + " by " + i + " Matrix");
+            System.out.println("Area: " + area/10.);
+            System.out.println("DP: " + dpTime/10.);
+            System.out.println();
+
+        }
+
+    }
+
+
+
+
 
 
 
