@@ -19,10 +19,14 @@ public class PatchOGrass {
 
 
 
-        //benchmarkSquare();
-        benchmarkBF();
+        benchmarkDPTall();
 
-        benchmarkDP();
+        benchmarkDPWide();
+
+        //benchmarkSquare();
+//        benchmarkBF();
+//
+//        benchmarkDP();
 
 //        int[][] grass = makeBinaryMatrix(150, 100, 0.8);
 //
@@ -383,6 +387,72 @@ public class PatchOGrass {
 
 
 
+    private static void benchmarkDPTall() {
+
+
+        for (int i = 200; i <= 4000; i+=200) {
+
+            long dpTime = 0;
+            int area = 0;
+
+            for (int j = 0; j < 10; j++) {
+
+                int[][] grass = makeBinaryMatrix(i*4, i, 0.8);
+
+
+                long startTime1 = System.currentTimeMillis();
+                HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
+                long endTime1 = System.currentTimeMillis();
+                dpTime+= (endTime1 - startTime1);
+
+                area+= (int) bestPatchDP.get("height") *  (int) bestPatchDP.get("width");
+
+            }
+
+
+            System.out.println((i*4) + " by " + i + " Matrix");
+            System.out.println("Area: " + area/10.);
+            System.out.println("DP: " + dpTime/10.);
+            System.out.println();
+
+        }
+
+    }
+
+
+
+
+
+    private static void benchmarkDPWide() {
+
+        for (int i = 200; i <= 4000; i+=200) {
+
+            long dpTime = 0;
+            int area = 0;
+
+            for (int j = 0; j < 10; j++) {
+
+                int[][] grass = makeBinaryMatrix(i, i*4, 0.8);
+
+
+                long startTime1 = System.currentTimeMillis();
+                HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
+                long endTime1 = System.currentTimeMillis();
+                dpTime+= (endTime1 - startTime1);
+
+                area+= (int) bestPatchDP.get("height") *  (int) bestPatchDP.get("width");
+
+            }
+
+
+            System.out.println(i + " by " + (i*4) + " Matrix");
+            System.out.println("Area: " + area/10.);
+            System.out.println("DP: " + dpTime/10.);
+            System.out.println();
+
+        }
+
+    }
 
 
 
