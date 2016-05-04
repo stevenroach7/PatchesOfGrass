@@ -40,5 +40,7 @@ public class Border extends GCompound {
     }
 
 
+    // TODO: Make method to change border size
+
 
 }

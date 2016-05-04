@@ -2,6 +2,7 @@ package patchOGrass;
 
 import acm.graphics.GCompound;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -9,35 +10,41 @@ import java.util.Random;
  */
 public class Field extends GCompound {
 
-    private float[][] fieldMatrix;
+    private int[][] fieldMatrix;
     private Border border;
     public static final int GAP_SPACING = 5;
 
 
     public Field(int N, int M) {
         Random rand = new Random();
-        fieldMatrix = new float[N][M];
-        for (int i = 0; i < N; i++){
-            for (int j = 0; j < M; j++){
-                float randomNum = rand.nextFloat();
-                randomNum = (float) ( Math.round(randomNum * 1000d) / 1000d);
-                fieldMatrix[i][j] = randomNum;
-                //fieldMatrix[i][j] = (float) i / (float) 10;
-//                Blade newBlade = new Blade(i * (Blade.WIDTH + GAP_SPACING), j * (Blade.HEIGHT + GAP_SPACING), randomNum);
+        fieldMatrix = new int[N][M];
+        for (int i = 0; i < M; i++){
+            for (int j = 0; j < N; j++){
+                double randNum = rand.nextDouble();
+                if (randNum > .8) {
+                    fieldMatrix[i][j] = 0;
+                }  else {
+                    fieldMatrix[i][j] = 1;
+                }
                 Blade newBlade = new Blade(i * (Blade.WIDTH + GAP_SPACING) + GAP_SPACING, j * (Blade.HEIGHT + GAP_SPACING) + GAP_SPACING, fieldMatrix[i][j]);
                 add(newBlade);
 
             }
         }
+
+
     }
-
-
 
 
     public void addBorder() {
         border = new Border(5,9);
         add(border);
     }
+
+
+
+
+
 
 
 
@@ -81,6 +88,82 @@ public class Field extends GCompound {
     }
 
 
+
+    // TODO: Adapt these static methods to not be static and use the border to create the BF visualization.
+    // Model the findMaxSubmatrix1sBF method after the surveyGrassBF method above.
+
+    /**
+     * Returns the sum of entries of a submatrix given a matrix and specifications of the submatrix.
+     * @param matrix, a 2D array representing the full matrix.
+     * @param currentI, upper left x coordinate of submatrix.
+     * @param currentJ, upper left y coordinate of submatrix.
+     * @param h, height of submatrix.
+     * @param w, width of submatrix.
+     * @return total, an int sum of entries of the submatrix.
+     */
+    protected static int sumBinaryMatrix(int[][] matrix, int currentI, int currentJ, int h, int w){
+        int total = 0;
+        for (int i = currentI; i < currentI + h; i++){
+            for (int j = currentJ; j < currentJ + w; j++){
+                total+= matrix[i][j];
+            }
+        }
+        return total;
+    }
+
+
+
+    /**
+     * Takes a binary matrix represented as a 2D array and finds the largest submatrix containing all 1's using a Brute Force approach.
+     * This method finds every submatrix in matrix and returns a representation of the largest submatrix consisting only of 1's.
+     * Runs in O(m^3*n^3) time where m is the number of rows and n is the number of columns.
+     * @param matrix, a 2D array with only 0's or 1's as entries.
+     * @return a Map holding an upper left coordinate, a height, and width.
+     */
+    public static HashMap<String, Integer> findMaxSubmatrix1sBF(int[][] matrix){
+        HashMap<String, Integer> results = new HashMap<String, Integer>();
+        results.put("height", 0);
+        results.put("width", 0);
+        results.put("i", 0);
+        results.put("j", 0);
+        int best = 0;
+        int subMatrixSum;
+        for (int i = 0; i < matrix.length;i++){
+            for (int j = 0; j < matrix[0].length; j++){
+                for (int h = 1; h <= matrix.length - i; h++){
+                    for (int w = 1; w <= matrix[0].length - j; w++){
+                        subMatrixSum = sumBinaryMatrix(matrix, i, j, h, w);
+                        if (subMatrixSum == (h * w)) { // submatrix consists of only ones if and only if the sum of all elements equals h*w.
+                            if (subMatrixSum > best) { // subMatrixSum is equal to area since all entries are one.
+                                results.put("height", h);
+                                results.put("width", w);
+                                results.put("i", i);
+                                results.put("j", j);
+                                best = subMatrixSum;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+//        System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("j") + "," + results.get("i") + ").");
+//        System.out.println("Area: " + best);
+        return results;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Sums the lengths of a subfield of grass.
      * @param currentI, an int representing the vertical coordinate of the upper left corner of a subfield of grass.
@@ -99,7 +182,6 @@ public class Field extends GCompound {
         return total;
     }
 
-
     /**
      * Returns a subfield of grass.
      * @param currentI, an int representing the vertical coordinate of the upper left corner of a subfield of grass.
@@ -117,7 +199,9 @@ public class Field extends GCompound {
     }
 
 
-    public float[][] getFieldMatrix() {
+
+
+    public int[][] getFieldMatrix() {
         return fieldMatrix;
     }
 }

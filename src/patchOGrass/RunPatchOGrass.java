@@ -3,10 +3,10 @@ package patchOGrass;
 import acm.program.GraphicsProgram;
 
 /**
+ * I made this file for us have a space to test visualizations of an algorithm.
  * Created by Steven on 4/7/16.
  */
 public class RunPatchOGrass extends GraphicsProgram {
-
 
 
 
@@ -16,7 +16,7 @@ public class RunPatchOGrass extends GraphicsProgram {
         //field.addBorder();
         add(field);
 
-        float[][] matrix = field.getFieldMatrix();
+        int[][] matrix = field.getFieldMatrix();
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {

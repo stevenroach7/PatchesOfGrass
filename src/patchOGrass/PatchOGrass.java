@@ -14,7 +14,6 @@ public class PatchOGrass {
 
 
 
-
     public static void main(String arg[]){
 
 //        benchmarkDPTall();
@@ -22,7 +21,6 @@ public class PatchOGrass {
 //        benchmarkSquare();
 //        benchmarkBF();
 //        benchmarkDP();
-
 
     }
 
@@ -77,7 +75,7 @@ public class PatchOGrass {
      * @param histResults, index 0 has x coordinate, index 1 has width, and index 2 has height.
      * @return an int area or the rectangle.
      */
-    private static int findArea(int[] histResults) {
+    protected static int findArea(int[] histResults) {
         return histResults[1] * histResults[2];
     }
 
@@ -89,7 +87,7 @@ public class PatchOGrass {
      * @param histValues, an array with each entry specifying a height for that index bar of the histogram.
      * @return maxInfo, an array where index 0 has x coordinate, index 1 has width, and index 2 has height.
      */
-    private static int[] findMaxRectangleHistogram(int[] histValues) {
+    protected static int[] findMaxRectangleHistogram(int[] histValues) {
 
         Deque<Integer> stack = new LinkedList<>();
         int maxArea = 0;
@@ -170,7 +168,7 @@ public class PatchOGrass {
      * @param w, width of submatrix.
      * @return total, an int sum of entries of the submatrix.
      */
-    public static int sumBinaryMatrix(int[][] matrix, int currentI, int currentJ, int h, int w){
+    protected static int sumBinaryMatrix(int[][] matrix, int currentI, int currentJ, int h, int w){
         int total = 0;
         for (int i = currentI; i < currentI + h; i++){
             for (int j = currentJ; j < currentJ + w; j++){
@@ -231,7 +229,7 @@ public class PatchOGrass {
      * @param N, an int width of the field of grass
      * @return A two dimensional array of binary 1s and 0s representing the field of grass.
      */
-    private static int[][] makeBinaryMatrix(int M, int N, double pct){
+    protected static int[][] makeBinaryMatrix(int M, int N, double pct){
         Random rand = new Random();
         int[][] matrix = new int[M][N];
         for (int i = 0; i < M; i++){
