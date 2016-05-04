@@ -17,36 +17,12 @@ public class PatchOGrass {
 
     public static void main(String arg[]){
 
-
-
-        benchmarkDPTall();
-
-        benchmarkDPWide();
-
-        //benchmarkSquare();
+//        benchmarkDPTall();
+//        benchmarkDPWide();
+//        benchmarkSquare();
 //        benchmarkBF();
-//
 //        benchmarkDP();
 
-//        int[][] grass = makeBinaryMatrix(150, 100, 0.8);
-//
-//        System.out.println(" ");
-//
-//        long startTime = System.currentTimeMillis();
-//        HashMap bestPatch = findMaxSubmatrix1sBF(grass);
-//        long endTime = System.currentTimeMillis();
-//        long bfTime = endTime - startTime;
-//
-//        System.out.println("BF took " + bfTime + " milliseconds");
-//
-//
-//        long startTime1 = System.currentTimeMillis();
-//        HashMap bestPatchDP = findMaxSubmatrix1sDP(grass);
-//        long endTime1 = System.currentTimeMillis();
-//        long dpTime = endTime1 - startTime1;
-//        System.out.println("DP took " + dpTime + " milliseconds");
-//
-//        System.out.println("Difference was " + (bfTime - dpTime));
 
     }
 
@@ -276,10 +252,12 @@ public class PatchOGrass {
     }
 
 
-
-
+    /**
+     * This method iteratively runs the findMaxSubmatrix1s methods for the dynamic programming method and the brute force method.
+     * It times how long each method takes to compute for square matrices of increasing input sizes. All matrices include approximately
+     * 80% 1's and the rest 0's. It times each method for an input size 10 times and prints information about the average results.
+     */
     private static void benchmarkSquare() {
-
 
         for (int i = 10; i <= 150; i+=10) {
 
@@ -318,6 +296,11 @@ public class PatchOGrass {
     }
 
 
+    /**
+     * This method iteratively runs the findMaxSubmatrix1sBF method.
+     * It times how long the method takes to compute for square matrices of increasing input sizes. All matrices include approximately
+     * 80% 1's and the rest 0's. It times the method for an input size 10 times and prints information about the average results.
+     */
     private static void benchmarkBF() {
 
 
@@ -352,6 +335,12 @@ public class PatchOGrass {
 
     }
 
+
+    /**
+     * This method iteratively runs the findMaxSubmatrix1sDP method.
+     * It times how long the method takes to compute for square matrices of increasing input sizes. All matrices include approximately
+     * 80% 1's and the rest 0's. It times the method for an input size 10 times and prints information about the average results.
+     */
     private static void benchmarkDP() {
 
 
@@ -387,6 +376,12 @@ public class PatchOGrass {
 
 
 
+    /**
+     * This method iteratively runs the findMaxSubmatrix1sDP method.
+     * It times how long the method takes to compute for tall matrices of increasing input sizes.
+     * All input matrices have 4 times as many rows as columns and include approximately 80% 1's and the rest 0's.
+     * It times the method for an input size 10 times and prints information about the average results.
+     */
     private static void benchmarkDPTall() {
 
 
@@ -422,7 +417,12 @@ public class PatchOGrass {
 
 
 
-
+    /**
+     * This method iteratively runs the findMaxSubmatrix1sDP method.
+     * It times how long the method takes to compute for wide matrices of increasing input sizes.
+     * All input matrices have 4 times as many columns as rows and include approximately 80% 1's and the rest 0's.
+     * It times the method for an input size 10 times and prints information about the average results.
+     */
     private static void benchmarkDPWide() {
 
         for (int i = 200; i <= 4000; i+=200) {
