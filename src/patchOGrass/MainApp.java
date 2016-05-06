@@ -31,6 +31,8 @@ public class MainApp extends GraphicsProgram {
         start.setSize(80, 40);
 
 
+
+
         add(start, SOUTH);
         add(restart, SOUTH);
 

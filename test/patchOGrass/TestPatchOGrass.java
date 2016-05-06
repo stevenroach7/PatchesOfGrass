@@ -23,14 +23,16 @@ public class TestPatchOGrass {
 
 
 
-        int[][] grass = makeBinaryMatrix(100, 100, 0.8);
+        int[][] grass = makeBinaryMatrix(100, 100, 1);
 
         HashMap bestPatch = findMaxSubmatrix1sDP(grass);
-        int area = (int) bestPatch.get("height")* (int) bestPatch.get("width");
+        assertTrue((int) bestPatch.get("height") == 100);
+        assertTrue((int) bestPatch.get("width") == 100);
 
-        assertTrue(area > 30);
-
-
+        grass = makeBinaryMatrix(100, 100, 0);
+        bestPatch = findMaxSubmatrix1sDP(grass);
+        assertTrue((int) bestPatch.get("height") == 0);
+        assertTrue((int) bestPatch.get("width") == 0);
     }
 
 
