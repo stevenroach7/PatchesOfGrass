@@ -28,11 +28,8 @@ public class Field extends GCompound {
                 }
                 Blade newBlade = new Blade(i * (Blade.WIDTH + GAP_SPACING) + GAP_SPACING, j * (Blade.HEIGHT + GAP_SPACING) + GAP_SPACING, fieldMatrix[i][j]);
                 add(newBlade);
-
             }
         }
-
-
     }
 
 
@@ -40,12 +37,6 @@ public class Field extends GCompound {
         border = new Border(5,9);
         add(border);
     }
-
-
-
-
-
-
 
 
     /**
@@ -85,6 +76,49 @@ public class Field extends GCompound {
         border.setLocation(besti*(Blade.WIDTH + GAP_SPACING), bestj*(Blade.HEIGHT + GAP_SPACING));
         //System.out.println("best patch found at [" + besti +"][" + bestj + "] with a total of " + currentBest);
         return focusGrass(besti, bestj, n, m);
+    }
+
+
+    /**
+     * Searches through the a binary field of grass with a brute-force approach and finds the largest
+     * submatrix rectangle of exclusively 1s
+     * @return A two dimensional array of floats representing the optimal subfield of grass.
+     */
+    public float[][] surveyGrassBinaryBF(){
+        float currentBest = 0;
+        float currentPatch;
+        int besti = 0;
+        int bestj = 0;
+
+        border = new Border(0, 0);
+        add(border);
+
+        for (int i = 0; i < (fieldMatrix.length); i++){
+            for(int j = 0; j < (fieldMatrix[0].length); j++) {
+                for (int h = 1; h <= fieldMatrix.length - i; h++) {
+                    for (int w = 1; w <= fieldMatrix[0].length - j; w++) {
+                        int subMatrixSum = sumBinaryMatrix(fieldMatrix, i, j, h, w);
+                        border.reSizeBorder((h ), (w));
+                        border.setLocation(i * (Blade.WIDTH + GAP_SPACING), j * (Blade.HEIGHT + GAP_SPACING));
+                        pause(50);
+
+                        currentPatch = sumGrass(i, j, h, w);
+
+                        //System.out.println("Current Patch: " + currentPatch);
+                        System.out.println("Current Best: " + currentBest);
+                        if (currentPatch > currentBest){
+                            currentBest = currentPatch;
+                            besti = i;
+                            bestj = j;
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("Best i,j is " + besti + ", " + bestj);
+        border.setLocation(besti*(Blade.WIDTH + GAP_SPACING), bestj*(Blade.HEIGHT + GAP_SPACING));
+        //System.out.println("best patch found at [" + besti +"][" + bestj + "] with a total of " + currentBest);
+        return focusGrass(besti, bestj, 0, 0);
     }
 
 
@@ -150,18 +184,6 @@ public class Field extends GCompound {
 //        System.out.println("Area: " + best);
         return results;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**

@@ -8,8 +8,6 @@ import acm.program.GraphicsProgram;
  */
 public class RunPatchOGrass extends GraphicsProgram {
 
-
-
     public void init() {
 
         Field field = new Field(25, 25);
@@ -26,7 +24,7 @@ public class RunPatchOGrass extends GraphicsProgram {
         }
 
 
-        field.surveyGrassBF(10,10);
+        field.surveyGrassBinaryBF();
 
 
 
