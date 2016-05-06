@@ -1,6 +1,7 @@
 package patchOGrass;
 
 import acm.graphics.GCompound;
+import acm.graphics.GLabel;
 import acm.graphics.GRect;
 
 import java.awt.*;
@@ -10,22 +11,25 @@ import java.awt.*;
  */
 public class Histogram extends GCompound {
 
-    public static final int HISTGAP = 100;
+    public static final int HISTGAP = 200;
 
     private int M;
     private int N;
 
 
-    public Histogram(int[] frontier, int M, int N){
+    public Histogram(int[] frontier, int M){
         super();
         this.M = M;
-        this.N = N;
 
         for (int i=0; i<frontier.length; i++){
             GRect column = createColumn(frontier[i]);
             add(column);
-            column.setLocation(400 + (i* Blade.WIDTH + Field.GAP_SPACING * i), (M * Blade.HEIGHT)-(frontier[i] * Blade.HEIGHT) + Field.GAP_SPACING);
+            column.setLocation(HISTGAP + (i* Blade.WIDTH + i*Field.GAP_SPACING), (M * Blade.HEIGHT)-(frontier[i] * Blade.HEIGHT) + Field.GAP_SPACING);
         }
+
+        GLabel row = new GLabel(frontierToString(frontier));
+        add(row);
+        row.setLocation(HISTGAP, (M *  Blade.HEIGHT) + Blade.HEIGHT + Field.GAP_SPACING);
     }
 
     /**
@@ -34,8 +38,8 @@ public class Histogram extends GCompound {
      * @return
      */
     private GRect createColumn(int h) {
-        int height = h * (Blade.HEIGHT) + Field.GAP_SPACING;
-        int width = Blade.WIDTH;
+        int height = h * (Blade.HEIGHT);
+        int width = Blade.WIDTH + Field.GAP_SPACING;
 
         GRect column = new GRect(width, height);
         column.setColor(Color.BLUE);
@@ -43,5 +47,13 @@ public class Histogram extends GCompound {
         return column;
     }
 
+    private String frontierToString(int[] frontier){
+        String row = " ";
+        for (int i = 0; i<frontier.length; i++){
+            row+=(frontier[i] + "   ");
+            System.out.println(row);
+        }
 
+        return row;
+    }
 }
