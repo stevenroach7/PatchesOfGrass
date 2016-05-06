@@ -10,27 +10,38 @@ import java.awt.*;
  */
 public class Histogram extends GCompound {
 
+    public static final int HISTGAP = 100;
+
     private int M;
     private int N;
+
 
     public Histogram(int[] frontier, int M, int N){
         super();
         this.M = M;
         this.N = N;
-    }
 
-    private GRect createColumn(boolean orient, int M, int N) {
-        int height = M * (Blade.HEIGHT + Field.GAP_SPACING) + Field.GAP_SPACING;
-        int width = N * (Blade.WIDTH + Field.GAP_SPACING) + Field.GAP_SPACING;
-
-        GRect side;
-        if (orient) {
-            side = new GRect(width, Field.GAP_SPACING);
-        } else {
-            side = new GRect(Field.GAP_SPACING, height);
+        for (int i=0; i<frontier.length; i++){
+            GRect column = createColumn(M);
+            add(column);
+            column.setLocation(0,0);
         }
-        side.setColor(Color.RED);
-        side.setFilled(true);
-        return side;
     }
+
+    /**
+     *
+     * @param M height of individual column
+     * @return
+     */
+    private GRect createColumn(int M) {
+        int height = M * (Blade.HEIGHT + Field.GAP_SPACING) + Field.GAP_SPACING;
+        int width = (Blade.WIDTH + Field.GAP_SPACING) + Field.GAP_SPACING;
+
+        GRect column = new GRect(width, height);
+        column.setColor(Color.GREEN);
+        column.setFilled(true);
+        return column;
+    }
+
+
 }
