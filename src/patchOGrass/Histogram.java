@@ -24,7 +24,7 @@ public class Histogram extends GCompound {
         for (int i=0; i<frontier.length; i++){
             GRect column = createColumn(M);
             add(column);
-            column.setLocation(0,10);
+            column.setLocation(0,100);
         }
     }
 
