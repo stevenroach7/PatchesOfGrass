@@ -39,9 +39,9 @@ public class Border extends GCompound {
 
     /**
      * Creates the sides
-     * @param orient
-     * @param M
-     * @param N
+     * @param orient, true is horizontal, false is vertical orientation.
+     * @param M, rows in Border
+     * @param N, columns in Border
      * @return
      */
     private GRect createSide(boolean orient, int M, int N) {
@@ -73,7 +73,7 @@ public class Border extends GCompound {
         remove(bottom);
         remove(left);
         remove(right);
-        
+
         top = createSide(true, M, N);
         bottom = createSide(true, M, N);
         left = createSide(false, M, N);
