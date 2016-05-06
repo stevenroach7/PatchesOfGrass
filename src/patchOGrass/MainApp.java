@@ -30,9 +30,18 @@ public class MainApp extends GraphicsProgram {
         JButton restart = new JButton("Reset");
         start.setSize(80, 40);
 
+        JButton bfButton = new JButton("Run Brute Force Method");
+        bfButton.setSize(80, 40);
+
+        JButton dpButton = new JButton("Run Dynamic Programming Method");
+        dpButton.setSize(80, 40);
+
+
 
         add(start, SOUTH);
         add(restart, SOUTH);
+        add(bfButton, SOUTH);
+        add(dpButton, SOUTH);
 
         addActionListeners();  // for the button
 
@@ -86,6 +95,8 @@ public class MainApp extends GraphicsProgram {
             border.reSizeBorder(border.getM()+5, border.getN()+5);
         } if (cmd.equals("Reset")) {
             border.reSizeBorder(5, 5);
+        } if (cmd.equals("Run Brute Force Method")) {
+            field.surveyGrassBinaryBF();
         }
     }
 
