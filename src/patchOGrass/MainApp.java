@@ -18,11 +18,7 @@ public class MainApp extends GraphicsProgram {
     public void init() {
 
 
-        // TODO: Add Buttons
-
-
-
-        setSize(700, 700); // a reasonable size to hold the stopwatch
+        setSize(700, 700); // a reasonable size to hold the viz
 
         JButton start = new JButton("Resize");
         start.setSize(80, 40);
@@ -47,20 +43,16 @@ public class MainApp extends GraphicsProgram {
 
 
 
-
-
-
-
         // TODO: Add visualization space
 
-        field = new Field(25, 25);
+        field = new Field(5, 5);
         //field.addBorder();
         add(field);
 
 
         // Temporary to test border sizing
-        border = new Border(5, 5);
-        add(border);
+//           border = new Border(5, 5);
+//        add(border);
 
 
 //        int[][] matrix = field.getFieldMatrix();
@@ -73,7 +65,7 @@ public class MainApp extends GraphicsProgram {
 //        }
 //
 //
-//        field.surveyGrassBF(10,10);
+        field.surveyGrassBinaryBF();
 
 
     }

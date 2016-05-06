@@ -16,16 +16,19 @@ public class RunPatchOGrass extends GraphicsProgram {
 
         int[][] matrix = field.getFieldMatrix();
 
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
+//        for (int i = 0; i < matrix.length; i++) {
+//            for (int j = 0; j < matrix[0].length; j++) {
+//
+//                System.out.println("i = "+ i + ", j = " + j + ". Value = " + matrix[i][j]);
+//            }
+//        }
 
-                System.out.println("i = "+ i + ", j = " + j + ". Value = " + matrix[i][j]);
-            }
-        }
 
-
-        field.surveyGrassBinaryBF();
-
+//        field.surveyGrassBinaryBF();
+//
+//
+//        field.removeBorder();
+        field.findMaxSubmatrix1sDP();
 
 
     }
