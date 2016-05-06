@@ -17,6 +17,10 @@ public class Border extends GCompound {
     private GRect right;
 
 
+    private int M;
+    private int N;
+
+
     /**
      * Constructor for the Border Class. Initializes instance variables representing the sides of the Border.
      * @param M, rows in Border
@@ -24,6 +28,8 @@ public class Border extends GCompound {
      */
     public Border(int M, int N) {
         super();
+        this.M = M;
+        this.N = N;
 
         top = createSide(true, M, N);
         bottom = createSide(true, M, N);
@@ -69,6 +75,9 @@ public class Border extends GCompound {
     public void reSizeBorder(int M, int N) {
 
 
+        this.M = M;
+        this.N = N;
+
         remove(top);
         remove(bottom);
         remove(left);
@@ -89,6 +98,23 @@ public class Border extends GCompound {
 
 
 
+
+
+    public int getM() {
+        return M;
+    }
+
+    public void setM(int m) {
+        M = m;
+    }
+
+    public int getN() {
+        return N;
+    }
+
+    public void setN(int n) {
+        N = n;
+    }
 
 
 
