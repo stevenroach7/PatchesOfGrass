@@ -12,6 +12,10 @@ import java.util.Random;
  */
 public class Field extends GCompound {
 
+
+    // TODO: Add Histogram visualization.
+    //TODO: JavaDoc and General code cleanup.
+
     private int[][] fieldMatrix;
     private Border border;
     public static final int GAP_SPACING = 5;
@@ -20,15 +24,15 @@ public class Field extends GCompound {
     public Field(int M, int N) {
         Random rand = new Random();
         fieldMatrix = new int[M][N];
-        for (int i = 0; i < N; i++){
-            for (int j = 0; j < M; j++){
+        for (int i = 0; i < M; i++){
+            for (int j = 0; j < N; j++){
                 double randNum = rand.nextDouble();
                 if (randNum > .8) {
                     fieldMatrix[i][j] = 0;
                 }  else {
                     fieldMatrix[i][j] = 1;
                 }
-                Blade newBlade = new Blade(i * (Blade.WIDTH + GAP_SPACING) + GAP_SPACING, j * (Blade.HEIGHT + GAP_SPACING) + GAP_SPACING, fieldMatrix[i][j]);
+                Blade newBlade = new Blade(j * (Blade.WIDTH + GAP_SPACING) + GAP_SPACING, i * (Blade.HEIGHT + GAP_SPACING) + GAP_SPACING, fieldMatrix[i][j]);
                 add(newBlade);
             }
         }
@@ -43,7 +47,6 @@ public class Field extends GCompound {
      */
     public HashMap<String, Integer> surveyGrassBinaryBF(){
 
-
         HashMap<String, Integer> results = new HashMap<String, Integer>();
         results.put("height", 0);
         results.put("width", 0);
@@ -56,20 +59,18 @@ public class Field extends GCompound {
         border = new Border(0,0);
         add(border);
 
-        for (int y = 0; y < (fieldMatrix[0].length); y++){
-            for (int x = 0; x < (fieldMatrix.length); x++) {
-                for (int h = 1; h <= fieldMatrix[0].length - y; h++) {
-                    for (int w = 1; w <= fieldMatrix.length - x; w++) {
+        for (int y = 0; y < (fieldMatrix.length); y++){
+            for (int x = 0; x < (fieldMatrix[0].length); x++) {
+                for (int h = 1; h <= fieldMatrix.length - y; h++) {
+                    for (int w = 1; w <= fieldMatrix[0].length - x; w++) {
 
                         border.reSizeBorder(h, w);
                         border.setLocation(x * (Blade.WIDTH + GAP_SPACING), y * (Blade.HEIGHT + GAP_SPACING));
 
                         pause(10);
 
-
                         currentArea = sumGrass(x, y, h, w);
 
-                        //System.out.println("Current Patch: " + currentPatch);
                         System.out.println("Current Best: " + maxArea);
                         if ((currentArea > maxArea) && (currentArea == (h * w))){
                             maxArea = currentArea;
@@ -104,15 +105,11 @@ public class Field extends GCompound {
         int total = 0;
         for (int i = currentI; i < currentI + n; i++){
             for (int j = currentJ; j < currentJ + m; j++){
-                total += fieldMatrix[i][j];
+                total += fieldMatrix[j][i];
             }
         }
         return total;
     }
-
-
-
-
 
 
     /**
@@ -142,10 +139,9 @@ public class Field extends GCompound {
                 if (fieldMatrix[y][x] == 0) { // Make frontier value at index 0 regardless of what it was before.
                     frontier[x] = 0;
                 } else {
-                    frontier[x] += 1; // Increment frontier value at index i by 1.
+                    frontier[x] += 1; // Increment frontier value at index x by 1.
                 }
             }
-
 
             //histogram.update(frontier, LLCorner);
 
@@ -153,20 +149,26 @@ public class Field extends GCompound {
             int[] maxHist = findMaxRectangleHistogram(frontier); // Find max rectangle of frontier histogram.
 
             int area = findArea(maxHist);
-            System.out.println("area = " + area);
-            System.out.println("x = " + maxHist[0]);
-            System.out.println("y = " + (y - maxHist[2] + 1));
-            pause(2000);
 
-            border.reSizeBorder(maxHist[1], maxHist[2]); // TODO: FIX this.
-            border.setLocation((y-maxHist[2]+1) * (Blade.WIDTH + GAP_SPACING), maxHist[0] * (Blade.HEIGHT + GAP_SPACING));
+            int currX = maxHist[0];
+            int currY = y-maxHist[2]+1;
+            int currH = maxHist[2];
+            int currW = maxHist[1];
+
+            System.out.println("area = " + area);
+            System.out.println("x = " + currX);
+            System.out.println("y = " + currY);
+
+
+            border.reSizeBorder(currH, currW);
+            border.setLocation(currX * (Blade.WIDTH + GAP_SPACING), currY * (Blade.HEIGHT + GAP_SPACING));
             pause(1000);
 
             if (area > maxArea) {
-                results.put("height", maxHist[2]);
-                results.put("width", maxHist[1]);
-                results.put("x", maxHist[0]);
-                results.put("y", (y - maxHist[2] + 1)); // upper left y value is (y+1) - height of rectangle.
+                results.put("height", currH);
+                results.put("width", currW);
+                results.put("x", currX);
+                results.put("y", currY); // upper left y value is (y+1) - height of rectangle.
                 maxArea = area;
             }
 
@@ -174,11 +176,13 @@ public class Field extends GCompound {
 
         }
 //        System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("x") + "," + results.get("y") + ").");
-        border.reSizeBorder(results.get("width"), results.get("height")); // TODO: FIX this.
-        border.setLocation(results.get("y") * (Blade.WIDTH + GAP_SPACING), results.get("x") * (Blade.HEIGHT + GAP_SPACING));
+        border.reSizeBorder(results.get("height"), results.get("width")); // TODO: FIX this.
+        border.setLocation(results.get("x") * (Blade.WIDTH + GAP_SPACING), results.get("y") * (Blade.HEIGHT + GAP_SPACING));
 
         return results;
     }
+
+
 
 
     /**
@@ -266,10 +270,6 @@ public class Field extends GCompound {
         }
         return maxInfo;
     }
-
-
-
-
 
 
 
