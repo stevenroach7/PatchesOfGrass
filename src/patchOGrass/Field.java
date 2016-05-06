@@ -134,7 +134,7 @@ public class Field extends GCompound {
 
         border = new Border(0,0);
         add(border);
-        Histogram histogram = new Histogram(frontier, 0, 0);
+        Histogram histogram = new Histogram(frontier, 0);
 
         for (int y = 0; y < fieldMatrix.length; y++) { // Iterate
             // Update frontier

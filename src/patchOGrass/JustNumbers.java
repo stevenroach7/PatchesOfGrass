@@ -3,6 +3,8 @@ package patchOGrass;
 import java.util.HashMap;
 
 /**
+ * This class deals with the original Brute Force method we used, without implementing any visualization
+ * additions to it.  It takes a matrix of 1s and 0s and finds the largest sub matrix comprised exclusively of 1s.
  * Created by Matt on 5/5/2016.
  */
 public class JustNumbers {
