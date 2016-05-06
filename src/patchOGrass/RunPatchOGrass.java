@@ -10,7 +10,7 @@ public class RunPatchOGrass extends GraphicsProgram {
 
     public void init() {
 
-        Field field = new Field(5, 5);
+        Field field = new Field(10, 5);
         //field.addBorder();
         add(field);
 
@@ -23,11 +23,10 @@ public class RunPatchOGrass extends GraphicsProgram {
 //            }
 //        }
 
-
-//        field.surveyGrassBinaryBF();
+        field.surveyGrassBinaryBF();
 //
 //
-//        field.removeBorder();
+        field.removeBorder();
         field.findMaxSubmatrix1sDP();
 
 

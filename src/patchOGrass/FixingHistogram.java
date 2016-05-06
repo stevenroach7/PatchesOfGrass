@@ -16,10 +16,10 @@ public class FixingHistogram extends GraphicsProgram{
             int[][] matrix = field.getFieldMatrix();
 
 
-            Histogram histogram = new Histogram(matrix[0],5);
+            Histogram histogram = new Histogram(matrix[0]);
             int[] testArray = {5, 4, 3, 2, 1, 0};
-            Histogram test = new Histogram(testArray, 6);
-            add(test);
+            Histogram test = new Histogram(testArray);
+            add(histogram);
 //        field.surveyGrassBinaryBF();
 //
 //
