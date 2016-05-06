@@ -10,7 +10,7 @@ public class RunPatchOGrass extends GraphicsProgram {
 
     public void init() {
 
-        Field field = new Field(25, 25);
+        Field field = new Field(5, 5);
         //field.addBorder();
         add(field);
 
