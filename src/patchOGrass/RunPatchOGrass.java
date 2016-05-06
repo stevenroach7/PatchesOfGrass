@@ -10,7 +10,7 @@ public class RunPatchOGrass extends GraphicsProgram {
 
     public void init() {
 
-        Field field = new Field(5, 5);
+        Field field = new Field(10, 10);
         //field.addBorder();
         add(field);
 
@@ -22,7 +22,8 @@ public class RunPatchOGrass extends GraphicsProgram {
                 System.out.println("i = "+ i + ", j = " + j + ". Value = " + matrix[i][j]);
             }
         }
-
+        Histogram histogram = new Histogram(matrix[0], 10, 5);
+        add(histogram);
 
         field.surveyGrassBinaryBF();
 
