@@ -131,7 +131,8 @@ public class Field extends GCompound {
 
         border = new Border(0,0);
         add(border);
-        Histogram histogram = new Histogram(frontier, 0);
+        Histogram histogram;
+
 
         for (int y = 0; y < fieldMatrix.length; y++) { // Iterate
             // Update frontier
@@ -143,7 +144,7 @@ public class Field extends GCompound {
                 }
             }
 
-            //histogram.update(frontier, LLCorner);
+
 
             // Calculate area based on frontier after iterating through each entry of the current row.
             int[] maxHist = findMaxRectangleHistogram(frontier); // Find max rectangle of frontier histogram.
@@ -160,9 +161,16 @@ public class Field extends GCompound {
             System.out.println("y = " + currY);
 
 
+
+            histogram = new Histogram(frontier);
+//            add(histogram, 1 * (Blade.WIDTH + GAP_SPACING) + GAP_SPACING, (y-histogram.getHeight()) * (Blade.HEIGHT + GAP_SPACING) + GAP_SPACING);
+            add(histogram);
+            //add(histogram, 0, (y - histogram.getHeight()) * (Blade.HEIGHT + GAP_SPACING) + GAP_SPACING);
+
             border.reSizeBorder(currH, currW);
             border.setLocation(currX * (Blade.WIDTH + GAP_SPACING), currY * (Blade.HEIGHT + GAP_SPACING));
             pause(1000);
+            remove(histogram);
 
             if (area > maxArea) {
                 results.put("height", currH);
@@ -175,8 +183,8 @@ public class Field extends GCompound {
 
 
         }
-//        System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("x") + "," + results.get("y") + ").");
-        border.reSizeBorder(results.get("height"), results.get("width")); // TODO: FIX this.
+
+        border.reSizeBorder(results.get("height"), results.get("width"));
         border.setLocation(results.get("x") * (Blade.WIDTH + GAP_SPACING), results.get("y") * (Blade.HEIGHT + GAP_SPACING));
 
         return results;
