@@ -89,6 +89,8 @@ public class Field extends GCompound {
         float currentPatch;
         int besti = 0;
         int bestj = 0;
+        int bestw = 0;
+        int besth = 0;
 
         border = new Border(0, 0);
         add(border);
@@ -100,7 +102,7 @@ public class Field extends GCompound {
                         int subMatrixSum = sumBinaryMatrix(fieldMatrix, i, j, h, w);
                         border.reSizeBorder(h, w);
                         border.setLocation(j * (Blade.WIDTH + GAP_SPACING), i * (Blade.HEIGHT + GAP_SPACING));
-                        pause(300);
+                        pause(10);
 
                         currentPatch = sumGrass(i, j, h, w);
 
@@ -110,12 +112,15 @@ public class Field extends GCompound {
                             currentBest = currentPatch;
                             besti = i;
                             bestj = j;
+                            besth = h;
+                            bestw = w;
                         }
                     }
                 }
             }
         }
         System.out.println("Best i,j is " + besti + ", " + bestj);
+        border.reSizeBorder(bestw, besth);
         border.setLocation(besti*(Blade.WIDTH + GAP_SPACING), bestj*(Blade.HEIGHT + GAP_SPACING));
         //System.out.println("best patch found at [" + besti +"][" + bestj + "] with a total of " + currentBest);
         return focusGrass(besti, bestj, 0, 0);
