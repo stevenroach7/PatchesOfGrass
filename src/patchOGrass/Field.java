@@ -94,19 +94,19 @@ public class Field extends GCompound {
         add(border);
 
         for (int i = 0; i < (fieldMatrix.length); i++){
-            for(int j = 0; j < (fieldMatrix[0].length); j++) {
+            for (int j = 0; j < (fieldMatrix[0].length); j++) {
                 for (int h = 1; h <= fieldMatrix.length - i; h++) {
                     for (int w = 1; w <= fieldMatrix[0].length - j; w++) {
                         int subMatrixSum = sumBinaryMatrix(fieldMatrix, i, j, h, w);
-                        border.reSizeBorder((h ), (w));
-                        border.setLocation(i * (Blade.WIDTH + GAP_SPACING), j * (Blade.HEIGHT + GAP_SPACING));
-                        pause(50);
+                        border.reSizeBorder(h, w);
+                        border.setLocation(j * (Blade.WIDTH + GAP_SPACING), i * (Blade.HEIGHT + GAP_SPACING));
+                        pause(300);
 
                         currentPatch = sumGrass(i, j, h, w);
 
                         //System.out.println("Current Patch: " + currentPatch);
                         System.out.println("Current Best: " + currentBest);
-                        if (currentPatch > currentBest){
+                        if ((currentPatch > currentBest) && (currentPatch == (h * w))){
                             currentBest = currentPatch;
                             besti = i;
                             bestj = j;
@@ -120,7 +120,6 @@ public class Field extends GCompound {
         //System.out.println("best patch found at [" + besti +"][" + bestj + "] with a total of " + currentBest);
         return focusGrass(besti, bestj, 0, 0);
     }
-
 
 
     // TODO: Adapt these static methods to not be static and use the border to create the BF visualization.
@@ -185,7 +184,7 @@ public class Field extends GCompound {
         return results;
     }
 
-
+//TODO: This might be an exact copy of what subBinaryMatrix does.
     /**
      * Sums the lengths of a subfield of grass.
      * @param currentI, an int representing the vertical coordinate of the upper left corner of a subfield of grass.
