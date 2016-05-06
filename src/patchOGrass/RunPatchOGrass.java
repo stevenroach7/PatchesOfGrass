@@ -10,23 +10,25 @@ public class RunPatchOGrass extends GraphicsProgram {
 
     public void init() {
 
-        Field field = new Field(10, 10);
+        Field field = new Field(5, 5);
         //field.addBorder();
         add(field);
 
         int[][] matrix = field.getFieldMatrix();
 
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
+//        for (int i = 0; i < matrix.length; i++) {
+//            for (int j = 0; j < matrix[0].length; j++) {
+//
+//                System.out.println("i = "+ i + ", j = " + j + ". Value = " + matrix[i][j]);
+//            }
+//        }
 
-                System.out.println("i = "+ i + ", j = " + j + ". Value = " + matrix[i][j]);
-            }
-        }
-        Histogram histogram = new Histogram(matrix[0], 10, 5);
-        add(histogram);
 
-        field.surveyGrassBinaryBF();
-
+//        field.surveyGrassBinaryBF();
+//
+//
+//        field.removeBorder();
+        field.findMaxSubmatrix1sDP();
 
 
     }
