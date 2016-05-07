@@ -13,14 +13,13 @@ import java.util.*;
 public class PatchOGrass {
 
 
-
     public static void main(String arg[]){
 
-//        benchmarkDPTall();
-//        benchmarkDPWide();
-//        benchmarkSquare();
-//        benchmarkBF();
-//        benchmarkDP();
+        benchmarkDPTall();
+        benchmarkDPWide();
+        benchmarkSquare();
+        benchmarkBF();
+        benchmarkDP();
 
     }
 
@@ -35,7 +34,7 @@ public class PatchOGrass {
      */
     public static HashMap<String, Integer>  findMaxSubmatrix1sDP(int[][] matrix) {
 
-        HashMap<String, Integer> results = new HashMap<String, Integer>();
+        HashMap<String, Integer> results = new HashMap<>();
         results.put("height", 0);
         results.put("width", 0);
         results.put("x", 0); // x coordinate of upper left entry
@@ -188,11 +187,11 @@ public class PatchOGrass {
      * @return a Map holding an upper left coordinate, a height, and width.
      */
     public static HashMap<String, Integer> findMaxSubmatrix1sBF(int[][] matrix){
-        HashMap<String, Integer> results = new HashMap<String, Integer>();
+        HashMap<String, Integer> results = new HashMap<>();
         results.put("height", 0);
         results.put("width", 0);
-        results.put("i", 0);
-        results.put("j", 0);
+        results.put("x", 0);
+        results.put("y", 0);
         int best = 0;
         int subMatrixSum;
         for (int i = 0; i < matrix.length;i++){
@@ -204,8 +203,8 @@ public class PatchOGrass {
                             if (subMatrixSum > best) { // subMatrixSum is equal to area since all entries are one.
                                 results.put("height", h);
                                 results.put("width", w);
-                                results.put("i", i);
-                                results.put("j", j);
+                                results.put("x", j);
+                                results.put("y", i);
                                 best = subMatrixSum;
                             }
                         }
