@@ -3,18 +3,18 @@ package patchOGrass;
 import acm.graphics.GCompound;
 import acm.graphics.GLabel;
 import acm.graphics.GRect;
-import com.sun.tools.javac.util.ArrayUtils;
+
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Collections;
+
 
 /**
  * Created by Matt on 5/5/2016.
  */
 public class Histogram extends GCompound {
 
-    public static final int HISTGAP = 0;
+    public static final int HISTGAP = 150;
+    public static final int LABEL_HEIGHT = 40;
 
     private int M;
     private int N;
@@ -22,7 +22,6 @@ public class Histogram extends GCompound {
 
     public Histogram(int[] frontier){
         super();
-        //this.M = frontier.length;
         this.M = max(frontier);
         this.N = frontier.length;
 
@@ -31,14 +30,15 @@ public class Histogram extends GCompound {
             add(column);
 
             // Really confused by this line.
-            column.setLocation(HISTGAP + (i * Blade.WIDTH + i * Field.GAP_SPACING), (M * Blade.HEIGHT + 2*Field.GAP_SPACING)-(frontier[i] * Blade.HEIGHT));
+            //column.setLocation(HISTGAP + (i * (Blade.WIDTH + Field.GAP_SPACING)), (M * Blade.HEIGHT + 2*Field.GAP_SPACING)-(frontier[i] * Blade.HEIGHT));
+            column.setLocation(HISTGAP + (i * (Blade.WIDTH + Field.GAP_SPACING)), (M - frontier[i])*(Blade.HEIGHT + Field.GAP_SPACING));
         }
 
-        GLabel row = new GLabel(frontierToString(frontier));
+        GLabel row = new GLabel(frontierToString(frontier), N* (Field.GAP_SPACING + Blade.WIDTH),LABEL_HEIGHT);
         row.setFont("Helvetica-12");
         add(row);
         //row.setLocation(HISTGAP, M * (Blade.HEIGHT + Field.GAP_SPACING));
-        row.setLocation(HISTGAP, M * (Blade.HEIGHT + Field.GAP_SPACING));
+        row.setLocation(HISTGAP, (M*(Blade.HEIGHT + Field.GAP_SPACING)) + Field.GAP_SPACING);
     }
 
 
@@ -64,12 +64,12 @@ public class Histogram extends GCompound {
      * @return a Grectangle that represents the integer value of a given input array element
      */
     private GRect createColumn(int h) {
-        int height = h * (Blade.HEIGHT); // Add Gap Spacing
+        int height = (h*(Blade.HEIGHT + Field.GAP_SPACING));
         int width = Blade.WIDTH + Field.GAP_SPACING;
 
         GRect column = new GRect(width, height);
         column.setColor(Color.CYAN); // TODO: Change color?
-        //column.setFilled(true);
+        column.setFilled(true);
         return column;
     }
 
