@@ -18,7 +18,7 @@ public class Field extends GCompound {
 
     private int[][] fieldMatrix;
     private Border border;
-    public static final int GAP_SPACING = 5;
+    public static final int GAP_SPACING = 15;
 
 
     public Field(int M, int N) {

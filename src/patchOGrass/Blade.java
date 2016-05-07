@@ -17,8 +17,8 @@ public class Blade extends GRect {
 
     private int bladeQuality;
 
-    public static final int HEIGHT = 10;
-    public static final int WIDTH = 10;
+    public static final int HEIGHT = 30;
+    public static final int WIDTH = 30;
 
 
     public Blade(double x, double y, int bladeQuality) {

@@ -13,8 +13,7 @@ import java.awt.*;
  */
 public class Histogram extends GCompound {
 
-    public static final int HISTGAP = 150;
-    public static final int LABEL_HEIGHT = 40;
+    public static final int LABEL_HEIGHT = 5 * Blade.HEIGHT;
 
     private int M;
     private int N;
@@ -25,20 +24,23 @@ public class Histogram extends GCompound {
         this.M = max(frontier);
         this.N = frontier.length;
 
+        //int histGap = (N* (Field.GAP_SPACING + Blade.WIDTH));
+        int histGap = 0;
+
+
+
         for (int i=0; i<frontier.length; i++){
             GRect column = createColumn(frontier[i]);
             add(column);
 
-            // Really confused by this line.
-            //column.setLocation(HISTGAP + (i * (Blade.WIDTH + Field.GAP_SPACING)), (M * Blade.HEIGHT + 2*Field.GAP_SPACING)-(frontier[i] * Blade.HEIGHT));
-            column.setLocation(HISTGAP + (i * (Blade.WIDTH + Field.GAP_SPACING)), (M - frontier[i])*(Blade.HEIGHT + Field.GAP_SPACING));
+            column.setLocation(histGap + (i * (Blade.WIDTH + Field.GAP_SPACING)), (M - frontier[i])*(Blade.HEIGHT + Field.GAP_SPACING));
         }
 
-        GLabel row = new GLabel(frontierToString(frontier), N* (Field.GAP_SPACING + Blade.WIDTH),LABEL_HEIGHT);
+        GLabel row = new GLabel(frontierToString(frontier),histGap + (N* (Field.GAP_SPACING + Blade.WIDTH)), LABEL_HEIGHT);
         row.setFont("Helvetica-12");
         add(row);
-        //row.setLocation(HISTGAP, M * (Blade.HEIGHT + Field.GAP_SPACING));
-        row.setLocation(HISTGAP, (M*(Blade.HEIGHT + Field.GAP_SPACING)) + Field.GAP_SPACING);
+
+        row.setLocation(histGap, (M*(Blade.HEIGHT + Field.GAP_SPACING)) + Field.GAP_SPACING + Blade.HEIGHT);
     }
 
 
@@ -68,8 +70,9 @@ public class Histogram extends GCompound {
         int width = Blade.WIDTH + Field.GAP_SPACING;
 
         GRect column = new GRect(width, height);
-        column.setColor(Color.CYAN); // TODO: Change color?
-        column.setFilled(true);
+        column.setColor(Color.BLACK); // TODO: Change color?
+
+        //column.setFilled(true);
         return column;
     }
 
