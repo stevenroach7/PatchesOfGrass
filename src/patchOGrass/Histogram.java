@@ -9,6 +9,7 @@ import java.awt.*;
 
 
 /**
+ * Class for a histogram which is used in the Dynamic Programming visualization.
  * Created by Matt on 5/5/2016.
  */
 public class Histogram extends GCompound {
@@ -24,7 +25,6 @@ public class Histogram extends GCompound {
         this.M = max(frontier);
         this.N = frontier.length;
 
-        //int histGap = (N* (Field.GAP_SPACING + Blade.WIDTH));
         int histGap = 0;
 
 
@@ -37,7 +37,7 @@ public class Histogram extends GCompound {
         }
 
         GLabel row = new GLabel(frontierToString(frontier),histGap + (N* (Field.GAP_SPACING + Blade.WIDTH)), LABEL_HEIGHT);
-        row.setFont("Helvetica-12");
+        row.setFont("Helvetica-20");
         add(row);
 
         row.setLocation(histGap, (M*(Blade.HEIGHT + Field.GAP_SPACING)) + Field.GAP_SPACING + Blade.HEIGHT);
@@ -70,9 +70,8 @@ public class Histogram extends GCompound {
         int width = Blade.WIDTH + Field.GAP_SPACING;
 
         GRect column = new GRect(width, height);
-        column.setColor(Color.BLACK); // TODO: Change color?
+        column.setColor(Color.BLACK);
 
-        //column.setFilled(true);
         return column;
     }
 
@@ -82,9 +81,9 @@ public class Histogram extends GCompound {
      * @return string of frontier's values spaced out to correlate with its histogram
      */
     private String frontierToString(int[] frontier){
-        String row = " ";
+        String row = "      ";
         for (int i = 0; i<frontier.length; i++){
-            row+=(frontier[i] + "          ");
+            row+=(frontier[i] + "             ");
         }
         return row;
     }

@@ -3,35 +3,23 @@ package patchOGrass;
 import acm.program.GraphicsProgram;
 
 /**
- * I made this file for us have a space to test visualizations of an algorithm.
+ * GraphicsProgram to run visualizations.
  * Created by Steven on 4/7/16.
  */
 public class RunPatchOGrass extends GraphicsProgram {
 
     public void init() {
 
-        Field field = new Field(10, 15);
-        //field.addBorder();
+        setSize(1400, 1000);
+
+        Field field = new Field(7, 15);
         add(field);
 
-        int[][] matrix = field.getFieldMatrix();
 
-//        for (int i = 0; i < matrix.length; i++) {
-//            for (int j = 0; j < matrix[0].length; j++) {
-//
-//                System.out.println("i = "+ i + ", j = " + j + ". Value = " + matrix[i][j]);
-//            }
-//        }
-
-
-        //field.surveyGrassBinaryBF();
-//
-//
-//        field.removeBorder();
+        field.surveyGrassBinaryBF();
+        field.removeBorder();
         field.findMaxSubmatrix1sDP();
 
-//        Histogram histogram = new Histogram(matrix[0]);
-//        add(histogram);
 
     }
 

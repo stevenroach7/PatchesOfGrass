@@ -8,6 +8,7 @@ import java.awt.*;
 
 
 /**
+ * Class for a blade of grass which is what a field is made up of.
  * Created by Steven on 4/7/16.
  */
 
@@ -17,8 +18,8 @@ public class Blade extends GRect {
 
     private int bladeQuality;
 
-    public static final int HEIGHT = 30;
-    public static final int WIDTH = 30;
+    public static final int HEIGHT = 60;
+    public static final int WIDTH = 60;
 
 
     public Blade(double x, double y, int bladeQuality) {
@@ -36,7 +37,6 @@ public class Blade extends GRect {
 
     }
 
-
     public int getBladeQuality() {
         return bladeQuality;
     }
@@ -44,7 +44,6 @@ public class Blade extends GRect {
     public void setBladeQuality(int bladeQuality) {
         this.bladeQuality = bladeQuality;
     }
-
 
     @Override
     public boolean equals(Object o) {

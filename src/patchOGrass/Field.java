@@ -8,17 +8,16 @@ import java.util.LinkedList;
 import java.util.Random;
 
 /**
+ * Class that creates a field consisting of blades of grass. This class also has the algorithms we coded as visualizations.
  * Created by Steven on 4/7/16.
  */
 public class Field extends GCompound {
 
 
-    // TODO: Add Histogram visualization.
-    //TODO: JavaDoc and General code cleanup.
 
     private int[][] fieldMatrix;
     private Border border;
-    public static final int GAP_SPACING = 15;
+    public static final int GAP_SPACING = 30;
 
 
     public Field(int M, int N) {
@@ -41,8 +40,9 @@ public class Field extends GCompound {
 
 
     /**
+     * Visualization.
      * Searches through the a binary field of grass with a brute-force approach and finds the largest
-     * submatrix rectangle of exclusively 1s
+     * submatrix rectangle of exclusively 1s.
      * @return A two dimensional array of floats representing the optimal subfield of grass.
      */
     public HashMap<String, Integer> surveyGrassBinaryBF(){
@@ -67,11 +67,11 @@ public class Field extends GCompound {
                         border.reSizeBorder(h, w);
                         border.setLocation(x * (Blade.WIDTH + GAP_SPACING), y * (Blade.HEIGHT + GAP_SPACING));
 
-                        pause(10);
+                        pause(5);
 
                         currentArea = sumGrass(x, y, h, w);
 
-                        System.out.println("Current Best: " + maxArea);
+//                        System.out.println("Current Best: " + maxArea);
                         if ((currentArea > maxArea) && (currentArea == (h * w))){
                             maxArea = currentArea;
                             results.put("height", h);
@@ -84,8 +84,8 @@ public class Field extends GCompound {
                 }
             }
         }
-        System.out.println("Best x,y is " + results.get("x") + ", " + results.get("y"));
-        System.out.println("Best height, width is " + results.get("height") + ", " + results.get("width"));
+//        System.out.println("Best x,y is " + results.get("x") + ", " + results.get("y"));
+//        System.out.println("Best height, width is " + results.get("height") + ", " + results.get("width"));
         border.reSizeBorder(results.get("height"), results.get("width"));
         border.setLocation(results.get("x") * (Blade.WIDTH + GAP_SPACING), results.get("y") * (Blade.HEIGHT + GAP_SPACING));
         pause(2000);
@@ -113,6 +113,7 @@ public class Field extends GCompound {
 
 
     /**
+     * Visualization.
      * Takes a binary matrix represented as a 2D array and finds the largest submatrix containing all 1's using a Dynamic Programming approach.
      * This method uses a frontier representing a histogram of potential heights and computes the largest rectangle in the histogram after each row.
      * Runs in O(m*n) time where m is the number of rows and n is the number of columns.
@@ -167,7 +168,7 @@ public class Field extends GCompound {
 
             border.reSizeBorder(currH, currW);
             border.setLocation(currX * (Blade.WIDTH + GAP_SPACING), currY * (Blade.HEIGHT + GAP_SPACING));
-            pause(5000);
+            pause(4000);
             remove(histogram);
 
             if (area > maxArea) {
@@ -178,8 +179,6 @@ public class Field extends GCompound {
                 maxArea = area;
             }
 
-
-
         }
 
         border.reSizeBorder(results.get("height"), results.get("width"));
@@ -187,8 +186,6 @@ public class Field extends GCompound {
 
         return results;
     }
-
-
 
 
     /**

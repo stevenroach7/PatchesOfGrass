@@ -5,6 +5,7 @@ import acm.graphics.*;
 import java.awt.*;
 
 /**
+ * Class for the border used in the visualization.
  * Created by Steven on 4/15/16.
  */
 
