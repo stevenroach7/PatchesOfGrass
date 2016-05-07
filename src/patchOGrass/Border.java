@@ -91,7 +91,7 @@ public class Border extends GCompound {
         add(top, 0, 0);
         add(bottom, 0, left.getHeight()-Field.GAP_SPACING);
         add(left, 0, 0);
-        add(right, top.getWidth()-Field.GAP_SPACING, 0);
+        add(right, top.getWidth() - Field.GAP_SPACING, 0);
 
 
     }

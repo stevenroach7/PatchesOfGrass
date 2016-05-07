@@ -163,13 +163,13 @@ public class Field extends GCompound {
 
 
             histogram = new Histogram(frontier);
-//            add(histogram, 1 * (Blade.WIDTH + GAP_SPACING) + GAP_SPACING, (y-histogram.getHeight()) * (Blade.HEIGHT + GAP_SPACING) + GAP_SPACING);
-            add(histogram);
+            add(histogram, 0, (y*((Blade.HEIGHT + GAP_SPACING) + GAP_SPACING)) - histogram.getHeight() - 2 *Blade.HEIGHT);
+            //add(histogram);
             //add(histogram, 0, (y - histogram.getHeight()) * (Blade.HEIGHT + GAP_SPACING) + GAP_SPACING);
 
             border.reSizeBorder(currH, currW);
             border.setLocation(currX * (Blade.WIDTH + GAP_SPACING), currY * (Blade.HEIGHT + GAP_SPACING));
-            pause(1000);
+            pause(3000);
             remove(histogram);
 
             if (area > maxArea) {

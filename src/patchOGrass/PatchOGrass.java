@@ -65,7 +65,7 @@ public class PatchOGrass {
                 maxArea = area;
             }
         }
-//        System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("x") + "," + results.get("y") + ").");
+//      System.out.println(" " + results.get("height") + " by " + results.get("width") + ": starting at (" + results.get("x") + "," + results.get("y") + ").");
         return results;
     }
 

@@ -13,7 +13,6 @@ public class MainApp extends GraphicsProgram {
 
 
     private Field field;
-    private Border border;
 
     public void init() {
 
@@ -39,8 +38,6 @@ public class MainApp extends GraphicsProgram {
         add(bfButton, SOUTH);
         add(dpButton, SOUTH);
 
-        addActionListeners();  // for the button
-
 
 
         // TODO: Add visualization space
@@ -48,6 +45,9 @@ public class MainApp extends GraphicsProgram {
         field = new Field(5, 5);
         //field.addBorder();
         add(field);
+
+
+        addActionListeners();  // for the button
 
 
         // Temporary to test border sizing
@@ -65,7 +65,6 @@ public class MainApp extends GraphicsProgram {
 //        }
 //
 //
-        field.surveyGrassBinaryBF();
 
 
     }
@@ -84,11 +83,15 @@ public class MainApp extends GraphicsProgram {
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         if (cmd.equals("Resize")) {
-            border.reSizeBorder(border.getM()+5, border.getN()+5);
+            System.out.print("Resize");
         } if (cmd.equals("Reset")) {
-            border.reSizeBorder(5, 5);
+            System.out.print("Reset");
         } if (cmd.equals("Run Brute Force Method")) {
+            field.removeBorder();
             field.surveyGrassBinaryBF();
+        } if (cmd.equals("Run Dynamic Programming Method")) {
+            field.removeBorder();
+            field.findMaxSubmatrix1sDP();
         }
     }
 
