@@ -82,9 +82,9 @@ public class Histogram extends GCompound {
      * @return string of frontier's values spaced out to correlate with its histogram
      */
     private String frontierToString(int[] frontier){
-        String row = "";
+        String row = " ";
         for (int i = 0; i<frontier.length; i++){
-            row+=(frontier[i] + "  ");
+            row+=(frontier[i] + "          ");
         }
         return row;
     }
