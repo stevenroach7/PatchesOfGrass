@@ -1,6 +1,6 @@
 # PatchesOfGrass
 
-This is a project to benchmark and visualize algorithms that find the maximum area submatrix consisting of all 1's in a binary matrix. We call this the patch of grass problem for the following reason. Imagine you are trying to take a nap in a large field of grass where some blades of grass are sufficient for laying on and some are not. Our algorithm will find the largest area rectangle consiting of suitable blades of grass so you can slumber soundly. 
+This is a project to benchmark and visualize algorithms that find the maximum area submatrix consisting of all 1's in a binary matrix. We call this the patch of grass problem for the following reason. Imagine you are trying to take a nap in a large field of grass where some blades of grass are sufficient for laying on and some are not. Our algorithm will find the largest area rectangle consiting of suitable blades of grass so you can slumber soundly. Check out PatchesofGrassPoster.pdf to see the poster we presented on this work. 
 
 We implement algorithms using two different approaches to this problem: Brute Force and Dynamic programming. Both algorithms were not
 designed by us but are also not credited to anyone.
